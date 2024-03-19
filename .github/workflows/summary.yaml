@@ -1,0 +1,22 @@
+name: Test summary
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: coursier/cache-action@v6.4
+      - uses: coursier/setup-action@v1.3
+        id: setup
+        with:
+          jvm: 21
+      - name: Generate Job Summary
+        run: |-
+          VERSION=${{ steps.setup.outputs.cs-version }}
+          echo "## Test" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "CS Version - ${VERSION}" >> $GITHUB_STEP_SUMMARY
